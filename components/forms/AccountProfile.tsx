@@ -42,7 +42,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
             username: user?.username || "",
             bio: user?.bio || "",
         }
-    }) 
+    })
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
         e.preventDefault();
@@ -99,7 +99,8 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
         <Form {...form}>
             <form 
              onSubmit={form.handleSubmit(onSubmit)} 
-             className='space-y-8 flex flex-col justify-start gap-10'>
+             className='space-y-8 flex flex-col justify-start gap-10'
+            >
                 <FormField
                  control={form.control}
                  name='profile_photo'
@@ -134,6 +135,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                              onChange={(e) => handleImage(e, field.onChange)} 
                             />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                  )}
                 />
@@ -154,6 +156,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                              {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                  )}
                 />
@@ -174,6 +177,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                              {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                  )}
                 />
@@ -194,6 +198,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                              {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                  )}
                 />
