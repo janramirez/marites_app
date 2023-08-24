@@ -1,6 +1,6 @@
 # Marites App | A Threads by Meta Clone app
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-![Marites](https://i.ibb.co/hKkcnH3/Marites-app-SS.png)
+![Marites](https://ibb.co/hKkcnH3)
 
 ## Summary
 This web app is a clone of Threads developed by Meta.
