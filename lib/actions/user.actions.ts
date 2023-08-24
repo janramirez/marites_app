@@ -1,10 +1,27 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import User from "../models/user.model";
-import { connectToDB } from "../mongoose";
-import Thread from "../models/thread.model";
 import { FilterQuery, SortOrder } from "mongoose";
+import { revalidatePath } from "next/cache";
+
+import Community from "../models/community.model";
+import User from "../models/user.model";
+import Thread from "../models/thread.model";
+
+import { connectToDB } from "../mongoose";
+
+export async function fetchUser(userId: string) {
+    try {
+        connectToDB();
+
+        return await User.findOne({ id: userId })
+         .populate({
+            path: 'communities',
+            model: Community
+         });
+    } catch (error: any) {
+        throw new Error(`Failed to fetch user: ${error.message}`);
+    }
+}
 
 interface Params {
     userId: string;
@@ -23,9 +40,9 @@ export async function updateUser({
     image,
     path,
 }: Params): Promise<void> {
-    connectToDB();
-
     try {
+        connectToDB();
+
         await User.findOneAndUpdate(
             { id: userId },
             {
@@ -46,20 +63,6 @@ export async function updateUser({
     }
 }
 
-export async function fetchUser(userId: string) {
-    try {
-        connectToDB();
-
-        return await User.findOne({ id: userId });
-        //  .populate({
-        //     path: 'communities',
-        //     model: Community
-        //  })
-    } catch (error: any) {
-        throw new Error(`Failed to fetch user: ${error.message}`);
-    }
-}
-
 // TODO: Populate Community
 export async function fetchUserPosts(userId: string) {
     try {
@@ -70,7 +73,13 @@ export async function fetchUserPosts(userId: string) {
           .populate({
             path: 'threads',
             model: Thread,
-            populate: {
+            populate: [
+                {
+                    path: "community",
+                    model: Community,
+                    select: "name id image _id"
+                },
+                {
                 path: 'children',
                 model: Thread,
                 populate: {
@@ -78,7 +87,8 @@ export async function fetchUserPosts(userId: string) {
                     model: User,
                     select: "name image id",
                 },
-            },
+                },
+            ],
         });
 
         return threads;
